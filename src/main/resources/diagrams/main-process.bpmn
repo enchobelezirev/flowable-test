@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
-  xmlns:flowable="http://flowable.org/bpmn"
-  typeLanguage="http://www.w3.org/2001/XMLSchema"
-  expressionLanguage="http://www.w3.org/1999/XPath"
-  targetNamespace="http://www.flowable.org/processdef">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
   <process id="mainProcess" name="Main Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <serviceTask id="servicetask1" name="Set MessagesSet Messages" flowable:async="true" flowable:class="parallel.activiti.test.SetMessageTask"></serviceTask>
-    <callActivity id="callactivity1" name="Call activity" flowable:async="true" calledElement="subProcess" flowable:inheritVariables="false">
+    <serviceTask id="servicetask1" name="Set MessagesSet Messages" activiti:async="true" activiti:class="parallel.flowable.test.SetMessageTask"></serviceTask>
+    <callActivity id="callactivity1" name="Call activity" activiti:async="true" calledElement="subProcess" activiti:inheritVariables="false">
       <extensionElements>
-        <flowable:in source="message" target="message"></flowable:in>
+        <activiti:in source="message" target="message"></activiti:in>
       </extensionElements>
-      <multiInstanceLoopCharacteristics isSequential="false" flowable:collection="messages" flowable:elementVariable="message"></multiInstanceLoopCharacteristics>
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="messages" activiti:elementVariable="message"></multiInstanceLoopCharacteristics>
     </callActivity>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="servicetask1" targetRef="callactivity1"></sequenceFlow>
-    <serviceTask id="servicetask2" name="em" flowable:async="true" flowable:class="parallel.activiti.test.Em"></serviceTask>
+    <serviceTask id="servicetask2" name="em" activiti:async="true" activiti:class="parallel.flowable.test.Em"></serviceTask>
     <sequenceFlow id="flow3" sourceRef="callactivity1" targetRef="servicetask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="servicetask2" targetRef="endevent1"></sequenceFlow>
   </process>

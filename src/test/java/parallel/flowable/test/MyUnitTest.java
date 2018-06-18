@@ -1,10 +1,7 @@
 package parallel.flowable.test;
 
-import org.flowable.engine.ProcessEngine;
-import org.flowable.engine.ProcessEngineConfiguration;
-import org.flowable.engine.RepositoryService;
-import org.flowable.engine.RuntimeService;
-import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import java.util.List;
+
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -18,38 +15,40 @@ public class MyUnitTest {
     public FlowableRule flowableRule = new FlowableRule();
 
     @Test
-    public void test2() throws InterruptedException {
-        ProcessEngineConfiguration cfg = new StandaloneProcessEngineConfiguration().setJdbcUrl("jdbc:h2:mem:flowable;DB_CLOSE_DELAY=-1")
-            .setJdbcUsername("sa")
-            .setJdbcPassword("")
-            .setJdbcDriver("org.h2.Driver")
-            .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+    @org.flowable.engine.test.Deployment(resources = { "diagrams/main-process.bpmn", "diagrams/sub-process.bpmn" })
+    public void test() throws InterruptedException {
+        List<Deployment> deployment = flowableRule.getRepositoryService()
+            .createDeploymentQuery()
+            .list();
+        for (Deployment deployment2 : deployment) {
+            System.err.println(deployment2.getId());
+        }
+        List<ProcessDefinition> procDef = flowableRule.getRepositoryService()
+            .createProcessDefinitionQuery()
+            .deploymentId(deployment.get(0)
+                .getId())
+            .list();
+        for (ProcessDefinition processDefinition : procDef) {
+            System.out.println(processDefinition.getKey());
+        }
 
-        ProcessEngine processEngine = cfg.buildProcessEngine();
-        RepositoryService repositoryService = processEngine.getRepositoryService();
-        Deployment deployment = repositoryService.createDeployment()
-            .addClasspathResource("diagrams/main-process.bpmn")
-            .deploy();
+        System.out.println("Starting the process with deployment id: " + procDef.get(0)
+            .getName());
 
-        Deployment deployment2 = repositoryService.createDeployment()
-            .addClasspathResource("diagrams/sub-process.bpmn")
-            .deploy();
-
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-            .deploymentId(deployment.getId())
+        ProcessInstance procInst = flowableRule.getRuntimeService()
+            .startProcessInstanceByKey("mainProcess");
+        ProcessInstance processInstanceRunning = flowableRule.getRuntimeService()
+            .createProcessInstanceQuery()
+            .processInstanceId(procInst.getProcessInstanceId())
             .singleResult();
-        System.out.println("Found process definition : " + processDefinition.getName());
+        while (!processInstanceRunning.isEnded()) {
+            processInstanceRunning = flowableRule.getRuntimeService()
+                .createProcessInstanceQuery()
+                .processInstanceId(procInst.getProcessInstanceId())
+                .singleResult();
+            System.out.println(processInstanceRunning.getActivityId());
+        }
 
-        ProcessDefinition processDefinition2 = repositoryService.createProcessDefinitionQuery()
-            .deploymentId(deployment2.getId())
-            .singleResult();
-        System.out.println("Found process definition : " + processDefinition2.getName());
-
-        RuntimeService runtimeService = processEngine.getRuntimeService();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("mainProcess");
-        System.out.println("Process instance id: " + processInstance.getProcessInstanceId());
-        // System.out.println("Process instance running: " processInstance.get);
-        Thread.sleep(10000000);
     }
 
 }

@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
-  xmlns:flowable="http://flowable.org/bpmn"
-  typeLanguage="http://www.w3.org/2001/XMLSchema"
-  expressionLanguage="http://www.w3.org/1999/XPath"
-  targetNamespace="http://www.flowable.org/processdef">
-    <process id="subProcess" name="Siub Process" isExecutable="true">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="subProcess" name="Siub Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <serviceTask id="servicetask1" name="Display Message" flowable:async="true" flowable:class="parallel.activiti.test.DisplayMessageTask"></serviceTask>
+    <serviceTask id="servicetask1" name="Display Message" activiti:async="true" activiti:class="parallel.flowable.test.DisplayMessageTask"></serviceTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="servicetask1" targetRef="endevent1"></sequenceFlow>
   </process>

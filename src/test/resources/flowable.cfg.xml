@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="processEngineConfiguration" class="org.flowable.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
-   <!--  <property name="asyncExecutorEnabled" value="true" /> -->
-   <property name="asyncExecutorActivate" value="false" />
-    <!-- <property name="jobExecutorActivate" value="false" /> -->
-    <property name="jdbcUrl" value="jdbc:h2:mem:flowable;DB_CLOSE_DELAY=1000" />
-    <property name="jdbcDriver" value="org.h2.Driver" />
-    <property name="jdbcUsername" value="sa" />
-    <property name="jdbcPassword" value="" />
-  </bean> 
+	<bean id="processEngineConfiguration"
+		class="org.flowable.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+		<!-- <property name="asyncExecutorEnabled" value="true" /> -->
+		<property name="asyncExecutorActivate" value="false" />
+		<!-- <property name="jobExecutorActivate" value="false" /> -->
+		<property name="jdbcUrl"
+			value="jdbc:h2:mem:flowable;DB_CLOSE_DELAY=1000;MVCC=TRUE" />
+		<property name="jdbcDriver" value="org.h2.Driver" />
+		<property name="jdbcUsername" value="sa" />
+		<property name="jdbcPassword" value="" />
+	</bean>
 
-
-<!-- <bean id="processEngineConfiguration" class="org.flowable.spring.SpringProcessEngineConfiguration">
-  <property name="deploymentResources"
-    value="classpath*:/parallel.activiti.test/src/main/resources/*.bpmn*" />
-</bean>
-
-<bean id="processEngine" class="org.flowable.spring.ProcessEngineFactoryBean">
-  <property name="processEngineConfiguration" ref="processEngineConfiguration" />
-</bean> -->
 </beans>
