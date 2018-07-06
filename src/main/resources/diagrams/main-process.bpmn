@@ -4,7 +4,7 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
     <serviceTask id="servicetask1" name="Set MessagesSet Messages" activiti:async="true" activiti:class="parallel.flowable.test.SetMessageTask"></serviceTask>
-    <callActivity id="callactivity1" name="Call activity" activiti:async="true" calledElement="subProcess" activiti:inheritVariables="false">
+    <callActivity id="callactivity1" name="Call activity" calledElement="subProcess">
       <extensionElements>
         <activiti:in source="message" target="message"></activiti:in>
       </extensionElements>
