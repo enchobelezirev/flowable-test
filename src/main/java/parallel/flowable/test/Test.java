@@ -56,7 +56,6 @@ public class Test {
         variables.put("employee", "Tersting");
         variables.put("nrOfHolidays", 2);
         variables.put("description", "Male");
-        // ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("holidayRequest", variables);
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("mainProcess");
         while (!processInstance.isEnded()) {
             List<Execution> processInstanceExecutions = processEngine.getRuntimeService()
